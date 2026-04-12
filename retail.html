@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cencosud — C · P</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* HERO — 415px, dark navy-to-blue gradient */
+    .hero {
+      position: relative;
+      height: 415px;
+      background: linear-gradient(135deg, #0D2E5C 0%, #1A6BC5 100%);
+      overflow: hidden;
+    }
+    .hero-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 0 240px;
+      text-align: center;
+    }
+    .hero-cat { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #4A9FD8; text-transform: uppercase; }
+    .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(24px, 3.3vw, 48px); font-weight: 400; line-height: 1.2; color: #FFFFFF; text-align: center; max-width: 960px; }
+    .hero-divider { width: 60px; height: 3px; background: #4A9FD8; }
+    .hero-date { font-family: 'Inter', sans-serif; font-size: 15px; letter-spacing: 1px; color: rgba(255,255,255,0.6); }
+    .hero-tags { font-family: 'Geist Mono', monospace; font-size: 14px; letter-spacing: 1px; color: rgba(255,255,255,0.57); text-align: center; max-width: 820px; }
+
+    /* PROBLEM STATEMENT — bg #e6edf6, center */
+    .problem {
+      background: #e6edf6;
+      padding: 80px 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 24px;
+      min-height: 380px;
+    }
+    .problem-label { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 3px; color: #08304b; text-transform: uppercase; text-align: center; width: 100%; }
+    .problem-heading { font-family: 'Playfair Display', serif; font-size: clamp(22px, 2.6vw, 37px); font-weight: 400; line-height: 1.2; color: #111132; max-width: 860px; }
+    .problem-divider { width: 48px; height: 3px; background: #1A6BC5; }
+    .problem-sub { font-family: 'Inter', sans-serif; font-size: 18px; line-height: 1.5; color: rgba(49,52,65,0.8); max-width: 803px; }
+
+    /* BRIEF — white, two col */
+    .brief {
+      display: flex;
+      gap: 80px;
+      padding: 80px;
+      height: 440px;
+      background: #FFFFFF;
+      align-items: stretch;
+    }
+    .brief-left { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 24px; }
+    .brief-left h2 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 400; color: #1A1A1A; }
+    .section-bar { width: 48px; height: 3px; background: #1A6BC5; }
+    .brief-left p { font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.65; color: #444444; }
+    .role-card { background: #EEF3FC; border-radius: 8px; padding: 14px 20px; }
+    .role-card p { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; color: #1A6BC5; }
+    .brief-right { width: 267px; flex-shrink: 0; border-radius: 12px; overflow: hidden; }
+    .brief-right img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* SCALE — bg #F8F9FA, 3 stats */
+    .scale {
+      display: flex;
+      background: #F8F9FA;
+      height: 193px;
+    }
+    .scale-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .scale-item:not(:last-child) { border-right: 1px solid #E0EBF7; }
+    .scale-big { font-family: 'Playfair Display', serif; font-size: 64px; font-weight: 400; color: #1A6BC5; }
+    .scale-desc { font-family: 'Inter', sans-serif; font-size: 13px; color: #888888; text-align: center; }
+
+    /* USERS — white */
+    .users {
+      background: #FFFFFF;
+      padding: 60px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    .users h2 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 400; color: #1A1A1A; }
+    .users-row { display: flex; gap: 24px; height: 302px; }
+    .user-card {
+      flex: 1;
+      background: #F8F9FA;
+      border: 1px solid #E0EBF7;
+      border-radius: 12px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow: hidden;
+    }
+    .user-img { width: 100%; height: 208px; border-radius: 8px; object-fit: cover; margin: -28px -28px 0; width: calc(100% + 56px); }
+    .user-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 400; color: #1A1A1A; }
+    .user-desc { font-family: 'Inter', sans-serif; font-size: 13px; line-height: 1.5; color: #666666; }
+
+    /* FIELD — dark, two col image+text */
+    .field {
+      display: flex;
+      gap: 80px;
+      padding: 80px;
+      height: 500px;
+      background: #061830;
+      align-items: stretch;
+    }
+    .field-img { width: 460px; flex-shrink: 0; border-radius: 12px; overflow: hidden; }
+    .field-img img { width: 100%; height: 100%; object-fit: cover; }
+    .field-right { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 24px; }
+    .field-label { font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 3px; color: #1A6BC5; text-transform: uppercase; }
+    .field-right h2 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 400; line-height: 1.3; color: #FFFFFF; max-width: 540px; }
+    .field-bar { width: 48px; height: 2px; background: #1A6BC5; }
+    .field-right p { font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; color: rgba(255,255,255,0.5); max-width: 540px; }
+
+    /* STORY MAP — bg #f8f9fa */
+    .storymap {
+      background: #f8f9fa;
+      padding: 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+    .sm-header { display: flex; flex-direction: column; gap: 16px; }
+    .sm-label { font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 3px; color: #1A6BC5; text-transform: uppercase; }
+    .sm-header h2 { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 400; line-height: 1.2; color: #27272a; }
+    .sm-body { font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; color: #27272a; max-width: 707px; }
+    .sm-flow { font-family: 'Geist Mono', monospace; font-size: 23px; letter-spacing: 1px; color: #27272a; }
+    .act-grid { display: flex; flex-direction: column; gap: 12px; }
+    .act-row { display: flex; gap: 12px; height: 130px; }
+    .act-box {
+      flex: 1;
+      background: #0D2E5C;
+      border-radius: 10px;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      justify-content: center;
+    }
+    .act-num { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #1A6BC5; }
+    .act-name { font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.3; color: #FFFFFF; }
+    .stats-bar {
+      background: #406da4;
+      border-radius: 10px;
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .stats-bar span { font-family: 'Geist Mono', monospace; font-size: 13px; font-weight: 600; letter-spacing: 1px; color: #FFFFFF; }
+
+    /* ORCHESTRATOR — white */
+    .orchestrator {
+      display: flex;
+      gap: 80px;
+      padding: 80px;
+      height: 560px;
+      background: #FFFFFF;
+      align-items: stretch;
+    }
+    .orc-left { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 24px; }
+    .orc-label { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #1A6BC5; text-transform: uppercase; }
+    .orc-left h2 { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 400; line-height: 1.3; color: #1A1A1A; }
+    .orc-left p { font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.65; color: #444444; }
+    .orc-right { width: 427px; flex-shrink: 0; border-radius: 12px; overflow: hidden; }
+    .orc-right img { width: 100%; height: 100%; object-fit: contain; }
+
+    /* PRODUCTS — bg #7da4d5 */
+    .products-section {
+      background: #7da4d5;
+      padding: 60px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    .products-section h2 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 400; color: #FFFFFF; }
+    .products-row { display: flex; gap: 32px; }
+    .product-card {
+      flex: 1;
+      background: #cfe1f6;
+      border: 1px solid #E0EBF7;
+      border-radius: 12px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .product-img { width: 100%; height: 300px; border-radius: 8px; overflow: hidden; border: 1px solid #E8EBF0; }
+    .product-img img { width: 100%; height: 100%; object-fit: cover; }
+    .product-num { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 400; color: #1A6BC5; }
+    .product-name { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 400; color: #1A1A1A; }
+    .product-bar { width: 36px; height: 2px; background: #1A6BC5; }
+    .product-desc { font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.6; color: #444444; }
+    .product-tags { font-family: 'Geist Mono', monospace; font-size: 11px; line-height: 1.8; color: #1A6BC5; }
+    .disclaimer { font-family: 'Inter', sans-serif; font-size: 12px; color: #000000; }
+
+    /* RESPONSIVE */
+    @media (max-width: 1023px) {
+      .hero-inner { padding: 0 80px; }
+      .problem { padding: 60px 80px; }
+      .brief, .field, .orchestrator { flex-direction: column; height: auto; padding: 60px 40px; }
+      .brief-right, .field-img, .orc-right { width: 100%; height: 240px; }
+      .users { padding: 60px 40px; }
+      .users-row { flex-direction: column; height: auto; }
+      .user-card { height: auto; }
+      .scale { height: auto; padding: 32px 40px; flex-wrap: wrap; }
+      .scale-item { min-width: 33%; padding: 16px; }
+      .storymap { padding: 60px 40px; }
+      .act-row { flex-wrap: wrap; height: auto; }
+      .act-box { min-width: calc(50% - 6px); height: 80px; }
+      .products-section { padding: 60px 40px; }
+      .products-row { flex-direction: column; }
+      .sm-flow { font-size: 16px; }
+    }
+    @media (max-width: 767px) {
+      .hero { height: auto; padding: 60px 0; }
+      .hero-inner { padding: 0 20px; }
+      .hero-title { font-size: 24px; }
+      .problem { padding: 48px 20px; }
+      .brief, .field, .orchestrator, .users, .storymap, .products-section { padding: 48px 20px; }
+      .scale { padding: 24px 20px; }
+      .act-box { min-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">C · P</a>
+    <button class="nav-toggle" onclick="document.getElementById('nl').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="nl">
+      <a href="index.html" data-i18n="nav_home">home</a>
+      <a href="work.html" data-i18n="nav_work">some work</a>
+      <a href="about.html" data-i18n="nav_about">about me</a>
+      <button class="lang-btn" id="lang-btn" onclick="toggleLang()">ES</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <span class="hero-cat" data-i18n="cen_cat">Retail</span>
+      <h1 class="hero-title" data-i18n="cen_title">Redesigning price management — users at the core of automation</h1>
+      <div class="hero-divider"></div>
+      <p class="hero-date">2019–2021</p>
+      <p class="hero-tags" data-i18n="cen_tags">#ServiceDesign &nbsp;·&nbsp; #TechDriven &nbsp;·&nbsp; #DataScience &nbsp;·&nbsp; #Automatization &nbsp;·&nbsp; #ChangeManagement</p>
+    </div>
+  </div>
+
+  <!-- PROBLEM STATEMENT -->
+  <div class="problem">
+    <span class="problem-label" data-i18n="cen_prob_label">The Challenge</span>
+    <h2 class="problem-heading" data-i18n="cen_prob_h">Thousands of price changes. Hundreds of stores. Three teams that never "talked" to each other.</h2>
+    <div class="problem-divider"></div>
+    <p class="problem-sub" data-i18n="cen_prob_sub">The complexity wasn't just technical — it was organizational, cultural, and deeply human.</p>
+  </div>
+
+  <!-- BRIEF -->
+  <div class="brief">
+    <div class="brief-left">
+      <h2 data-i18n="cen_brief_h">A retailer flying blind.</h2>
+      <div class="section-bar"></div>
+      <p data-i18n="cen_brief_p">One of Latin America's largest retailers — 500+ stores, thousands of weekly price changes — running its entire pricing operation through spreadsheets, WhatsApp, and gut feel. My job was to change that.</p>
+      <div class="role-card"><p data-i18n="cen_role">My role: UX Designer &nbsp;·&nbsp; Service Design &nbsp;·&nbsp; Product Design</p></div>
+    </div>
+    <div class="brief-right">
+      <img src="./images/c.png" alt="Context">
+    </div>
+  </div>
+
+  <!-- SCALE -->
+  <div class="scale">
+    <div class="scale-item">
+      <span class="scale-big">500+</span>
+      <span class="scale-desc" data-i18n="cen_scale_d1">stores impacted</span>
+    </div>
+    <div class="scale-item">
+      <span class="scale-big">3</span>
+      <span class="scale-desc" data-i18n="cen_scale_d2">user types, distinct needs</span>
+    </div>
+    <div class="scale-item">
+      <span class="scale-big">2</span>
+      <span class="scale-desc" data-i18n="cen_scale_d3">products designed from scratch</span>
+    </div>
+  </div>
+
+  <!-- USERS -->
+  <div class="users">
+    <h2 data-i18n="cen_users_h">Who I designed for</h2>
+    <div class="section-bar"></div>
+    <div class="users-row">
+      <div class="user-card">
+        <img class="user-img" src="./images/cencosud-planner.png" alt="Planner">
+        <p class="user-name" data-i18n="cen_u1_name">Planners</p>
+        <p class="user-desc" data-i18n="cen_u1_desc">Simulate price scenarios and plan weekly changes across product categories.</p>
+      </div>
+      <div class="user-card">
+        <img class="user-img" src="https://images.unsplash.com/photo-1690378820474-b468b8ee64d3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600&q=80" alt="Product Managers">
+        <p class="user-name" data-i18n="cen_u2_name">Product Managers</p>
+        <p class="user-desc" data-i18n="cen_u2_desc">Own product strategy and collections. Need full visibility across the pricing pipeline.</p>
+      </div>
+      <div class="user-card">
+        <img class="user-img" src="./images/cencosud-store.png" alt="Store Assistants">
+        <p class="user-name" data-i18n="cen_u3_name">Store Assistants</p>
+        <p class="user-desc" data-i18n="cen_u3_desc">Apply price changes on the floor in real time — thousands of products, same day.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIELD -->
+  <div class="field">
+    <div class="field-img">
+      <img src="./images/cencosud-store.png" alt="Store visit">
+    </div>
+    <div class="field-right">
+      <span class="field-label" data-i18n="cen_field_label">The Foundation</span>
+      <h2 data-i18n="cen_field_h">I went to the stores. No assumptions.</h2>
+      <div class="field-bar"></div>
+      <p data-i18n="cen_field_p">While everyone was debating features, I was in the stores watching what actually happened when a price change arrived. The gap between the system and reality was larger than anyone admitted.</p>
+    </div>
+  </div>
+
+  <!-- STORY MAP -->
+  <div class="storymap">
+    <div class="sm-header">
+      <span class="sm-label" data-i18n="cen_sm_label">The Methodology</span>
+      <h2 data-i18n="cen_sm_h">How I Mapped the Problem</h2>
+      <div class="section-bar"></div>
+    </div>
+    <p class="sm-body" data-i18n="cen_sm_p">Before designing a single screen, I mapped every step, every role, and every handoff in the price change chain. Eight activities. Five user types. Dozens of failure points. This map became the strategic foundation for every decision we made.</p>
+    <p class="sm-flow" data-i18n="cen_sm_flow">Product Manager &nbsp;→&nbsp; Planner &nbsp;→&nbsp; Category Manager &nbsp;→&nbsp; Price Analyst &nbsp;→&nbsp; Store Assistant</p>
+    <div class="act-grid">
+      <div class="act-row">
+        <div class="act-box"><span class="act-num">01</span><span class="act-name" data-i18n="cen_a1">Monitor Performance</span></div>
+        <div class="act-box"><span class="act-num">02</span><span class="act-name" data-i18n="cen_a2">Flag Slow Products</span></div>
+        <div class="act-box"><span class="act-num">03</span><span class="act-name" data-i18n="cen_a3">Suggest Optimal Price</span></div>
+        <div class="act-box"><span class="act-num">04</span><span class="act-name" data-i18n="cen_a4">Configure Changes</span></div>
+      </div>
+      <div class="act-row">
+        <div class="act-box"><span class="act-num">05</span><span class="act-name" data-i18n="cen_a5">Update POS System</span></div>
+        <div class="act-box"><span class="act-num">06</span><span class="act-name" data-i18n="cen_a6">Notify Category Team</span></div>
+        <div class="act-box"><span class="act-num">07</span><span class="act-name" data-i18n="cen_a7">Alert Store Teams</span></div>
+        <div class="act-box"><span class="act-num">08</span><span class="act-name" data-i18n="cen_a8">Label at Shelf</span></div>
+      </div>
+    </div>
+    <div class="stats-bar">
+      <span data-i18n="cen_stats1">5 User Roles</span>
+      <span data-i18n="cen_stats2">8 Key Activities</span>
+      <span data-i18n="cen_stats3">15+ Features Designed</span>
+    </div>
+  </div>
+
+  <!-- ORCHESTRATOR -->
+  <div class="orchestrator">
+    <div class="orc-left">
+      <span class="orc-label" data-i18n="cen_orc_label">My Key Contribution</span>
+      <h2 data-i18n="cen_orc_h">I mapped every role, dependency and failure point — then designed the orchestrator that made the whole system work.</h2>
+      <div class="section-bar"></div>
+      <p data-i18n="cen_orc_p">The orchestrator is a semi-automated workflow tool that tracks the maturity level of each week's pricing process against predefined time limits — alerting on errors and keeping all stakeholders in sync.</p>
+    </div>
+    <div class="orc-right">
+      <img src="./images/cencosud-orchestrator.png" alt="Orchestrator tool">
+    </div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="products-section">
+    <h2 data-i18n="cen_prod_h">Two products delivered*</h2>
+    <div class="section-bar" style="background:#FFFFFF;opacity:0.6;"></div>
+    <div class="products-row">
+      <div class="product-card">
+        <div class="product-img"><img src="./images/cencosud-product1.png" alt="Back-Office Dashboard"></div>
+        <span class="product-num">01</span>
+        <span class="product-name" data-i18n="cen_p1_name">Back-Office Dashboard</span>
+        <div class="product-bar"></div>
+        <p class="product-desc" data-i18n="cen_p1_desc">End-to-end planning tool for Planners and PMs to simulate price scenarios, forecast revenue impact, and manage weekly pricing decisions.</p>
+        <p class="product-tags" data-i18n="cen_p1_tags">Price simulation &nbsp;·&nbsp; Revenue forecasting &nbsp;·&nbsp; Weekly planning &nbsp;·&nbsp; Error tracking</p>
+      </div>
+      <div class="product-card">
+        <div class="product-img"><img src="./images/cencosud-product2.png" alt="Store App"></div>
+        <span class="product-num">02</span>
+        <span class="product-name" data-i18n="cen_p2_name">Store App &amp; Dashboard</span>
+        <div class="product-bar"></div>
+        <p class="product-desc" data-i18n="cen_p2_desc">Simple, fast tool for store staff to receive weekly price updates, log implementation, and upload photo proof — all in one place.</p>
+        <p class="product-tags" data-i18n="cen_p2_tags">Real-time updates &nbsp;·&nbsp; Photo proof &nbsp;·&nbsp; Implementation log &nbsp;·&nbsp; Store dashboard</p>
+      </div>
+    </div>
+    <p class="disclaimer" data-i18n="cen_disclaimer">*design reference for confidentiality</p>
+  </div>
+
+  <div class="case-footer">
+    <a href="ecgo.html" data-i18n="footer_prev">← Previous project</a>
+    <a href="onlineevents.html" data-i18n="footer_next">Next project →</a>
+  </div>
+
+  <script src="lang.js"></script>
+</body>
+</html>

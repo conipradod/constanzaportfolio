@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ecgo — C · P</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* HERO — 415px, dark teal gradient, centered content */
+    .hero {
+      position: relative;
+      height: 415px;
+      background: linear-gradient(135deg, #0C3545 0%, #0E6B8C 100%);
+      overflow: hidden;
+    }
+    .hero-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 0 240px;
+      text-align: center;
+    }
+    .hero-cat {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: #4A9FD8;
+      text-transform: uppercase;
+    }
+    .hero-sub {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 400;
+      letter-spacing: 6px;
+      color: rgba(255,255,255,0.53);
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3.3vw, 48px);
+      font-weight: 400;
+      line-height: 1.2;
+      color: #FFFFFF;
+      text-align: center;
+      max-width: 960px;
+    }
+    .hero-divider { width: 60px; height: 3px; background: #4A9FD8; }
+    .hero-date {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+    }
+    .hero-tags {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.27);
+      text-align: center;
+      max-width: 820px;
+    }
+
+    /* REQUIREMENT — two col, padding 80 */
+    .requirement {
+      display: flex;
+      gap: 80px;
+      padding: 80px;
+      height: 529px;
+      align-items: stretch;
+      background: #FFFFFF;
+    }
+    .req-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 24px;
+    }
+    .req-left h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: #1A1A1A;
+    }
+    .req-left p {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: #444444;
+    }
+    .req-right {
+      width: 357px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .req-right img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* DISCOVERY — bg #F8F9FA, padding 60 80 */
+    .discovery {
+      background: #F8F9FA;
+      padding: 60px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+    .discovery h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: #1A1A1A;
+    }
+    .steps-row {
+      display: flex;
+      gap: 16px;
+      height: 120px;
+    }
+    .step {
+      flex: 1;
+      background: #FFFFFF;
+      border: 1px solid #EEF0F2;
+      border-radius: 8px;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: #4A9FD8;
+    }
+    .step-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1A1A1A;
+    }
+    .field-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: #6B7280;
+      text-transform: uppercase;
+    }
+    .photo-row {
+      display: flex;
+      gap: 12px;
+      height: 220px;
+      justify-content: space-between;
+    }
+    .photo-row .p1, .photo-row .p2, .photo-row .p3 { flex: 1; border-radius: 6px; overflow: hidden; }
+    .photo-row .p4 { width: 155px; flex-shrink: 0; border-radius: 6px; overflow: hidden; }
+    .photo-row img { width: 100%; height: 100%; object-fit: cover; }
+    .photo-row .p4 img { object-fit: contain; background: #f0f0f0; }
+
+    /* OBJECTIVE — white, padding 80, two col */
+    .objective {
+      display: flex;
+      gap: 80px;
+      padding: 80px;
+      height: 463px;
+      background: #FFFFFF;
+      align-items: stretch;
+    }
+    .obj-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+    }
+    .obj-left h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: #1A1A1A;
+    }
+    .section-bar { width: 48px; height: 3px; background: #0E6B8C; }
+    .obj-left p {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: #444444;
+    }
+    .obj-right {
+      width: 580px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .rq-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      color: #0E6B8C;
+      text-transform: uppercase;
+    }
+    .q-grid {
+      flex: 1;
+      display: flex;
+      gap: 12px;
+    }
+    .q-col { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+    .q-item {
+      border-radius: 3px;
+      padding: 20px 16px;
+      flex: 1;
+    }
+    .q-item p {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #2A2A2A;
+    }
+    .q1 { background: #FFF9C4; }
+    .q2 { background: #FFE4CC; }
+    .q3 { background: #D4F0E4; }
+    .q4 { background: #D0E8FA; }
+
+    /* PLANNING — bg #F8F9FA */
+    .planning {
+      display: flex;
+      gap: 80px;
+      padding: 80px;
+      height: 420px;
+      background: #F8F9FA;
+      align-items: stretch;
+    }
+    .plan-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+    }
+    .plan-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: #0E6B8C;
+      text-transform: uppercase;
+    }
+    .plan-left h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: #1A1A1A;
+    }
+    .plan-left p {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: #444444;
+    }
+    .plan-right {
+      width: 420px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+    }
+    .participants-card {
+      background: #FFFFFF;
+      border: 1px solid #C8DFF0;
+      border-radius: 12px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .participants-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: #1A1A1A;
+    }
+    .p-divider { width: 40px; height: 2px; background: #0E6B8C; }
+    .p-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .p-dot { width: 8px; height: 8px; border-radius: 4px; background: #0E6B8C; flex-shrink: 0; }
+    .p-item span {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #333333;
+    }
+
+    /* CONDUCTING — white, padding 80 */
+    .conducting {
+      background: #FFFFFF;
+      padding: 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    .cond-header { display: flex; flex-direction: column; gap: 16px; }
+    .cond-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: #1A1A1A;
+    }
+    .cond-header p {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #444444;
+      max-width: 680px;
+    }
+    .interview-cards {
+      display: flex;
+      gap: 20px;
+      height: 200px;
+    }
+    .interview-card {
+      flex: 1;
+      background: #F5FAFE;
+      border-top: 3px solid #0E6B8C;
+      border-radius: 12px;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .ic-num {
+      font-family: 'Geist Mono', monospace;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: #0E6B8C;
+    }
+    .ic-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1A1A1A;
+    }
+    .ic-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #666666;
+    }
+    .obs-bar {
+      background: #061F2A;
+      border-radius: 12px;
+      padding: 24px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .obs-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      color: #4A9FD8;
+      text-transform: uppercase;
+    }
+    .obs-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.6);
+    }
+    .obs-locations {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #4A9FD8;
+    }
+
+    /* CONCLUDING — bg #061F2A, padding 80 */
+    .concluding {
+      background: #061F2A;
+      padding: 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+    .conc-header { display: flex; flex-direction: column; gap: 16px; }
+    .conc-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: #FFFFFF;
+    }
+    .conc-header p {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.5);
+      max-width: 680px;
+    }
+    .findings-row {
+      display: flex;
+      gap: 20px;
+      height: 220px;
+    }
+    .finding-card {
+      flex: 1;
+      background: #0E3A4A;
+      border-top: 3px solid #0E6B8C;
+      border-radius: 12px;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      justify-content: center;
+    }
+    .finding-big {
+      font-family: 'Playfair Display', serif;
+      font-size: 72px;
+      font-weight: 400;
+      line-height: 1;
+      color: #4A9FD8;
+    }
+    .finding-unit {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      color: #4A9FD8;
+      text-transform: uppercase;
+    }
+    .finding-desc {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #FFFFFF;
+    }
+    .finding-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      color: #4A9FD8;
+      text-transform: uppercase;
+    }
+
+    /* IMPLEMENTING — bg #EAF4F8 */
+    .implementing {
+      background: #EAF4F8;
+      padding: 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .impl-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: #0E6B8C;
+      text-transform: uppercase;
+    }
+    .implementing h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: #0C2030;
+    }
+    .section-bar-blue { width: 48px; height: 3px; background: #0E6B8C; }
+    .impl-row {
+      display: flex;
+      gap: 24px;
+      height: 300px;
+    }
+    .impl-card {
+      flex: 1;
+      border-radius: 12px;
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .impl-card.dark { background: #0E6B8C; }
+    .impl-card.light { background: #FFFFFF; border: 1px solid #B8D8E8; }
+    .impl-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 400;
+    }
+    .impl-card.dark h3 { color: #FFFFFF; }
+    .impl-card.light h3 { color: #0C2030; }
+    .impl-card-divider-dark { width: 40px; height: 1px; background: rgba(255,255,255,0.27); }
+    .impl-card-divider-light { width: 40px; height: 2px; background: #0E6B8C; }
+    .impl-card p {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .impl-card.dark p { color: rgba(255,255,255,0.67); }
+    .impl-card.light p { color: #555555; }
+
+    /* PRODUCT SHOWCASE — bg #061F2A */
+    .product-showcase {
+      background: #061F2A;
+      padding: 60px 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+    .showcase-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 400;
+      color: #FFFFFF;
+      text-align: center;
+    }
+    .img-row {
+      display: flex;
+      gap: 24px;
+      height: 400px;
+      width: 100%;
+    }
+    .img-row .main-img { flex: 1; border-radius: 16px; overflow: hidden; }
+    .img-row .main-img img { width: 100%; height: 100%; object-fit: contain; }
+    .img-row .side-img { width: 380px; flex-shrink: 0; border-radius: 12px; overflow: hidden; }
+    .img-row .side-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* REAL IMPACT — bg #0C3545 */
+    .real-impact {
+      display: flex;
+      gap: 60px;
+      padding: 80px;
+      height: 400px;
+      background: #0C3545;
+      align-items: stretch;
+    }
+    .impact-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 24px;
+    }
+    .impact-left h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 400;
+      color: #FFFFFF;
+    }
+    .impact-left p {
+      font-family: 'Inter', sans-serif;
+      font-size: 20px;
+      line-height: 1.65;
+      color: #B0C8D8;
+    }
+    .impact-right {
+      width: 380px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+    }
+    .result-badge {
+      background: #133D52;
+      border-radius: 12px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .still-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: #4A9FD8;
+      text-transform: uppercase;
+    }
+    .year-big {
+      font-family: 'Playfair Display', serif;
+      font-size: 96px;
+      font-weight: 400;
+      line-height: 1;
+      color: #4A9FD8;
+    }
+    .result-note {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1023px) {
+      .hero-inner { padding: 0 80px; }
+      .requirement, .objective, .planning, .real-impact { flex-direction: column; height: auto; padding: 60px 40px; }
+      .req-right, .obj-right, .plan-right, .impact-right { width: 100%; }
+      .obj-right { width: 100%; }
+      .discovery, .conducting, .concluding, .implementing, .product-showcase { padding: 60px 40px; }
+      .steps-row { flex-wrap: wrap; height: auto; }
+      .step { flex: 1 1 calc(33% - 11px); }
+      .photo-row { height: 180px; }
+      .photo-row .p4 { display: none; }
+      .interview-cards, .findings-row, .impl-row { flex-direction: column; height: auto; }
+      .finding-card { height: auto; min-height: 120px; }
+      .img-row { flex-direction: column; height: auto; }
+      .img-row .side-img { width: 100%; height: 240px; }
+    }
+    @media (max-width: 767px) {
+      .hero { height: auto; padding: 60px 0; }
+      .hero-inner { padding: 0 20px; }
+      .hero-title { font-size: 28px; }
+      .requirement, .objective, .planning, .real-impact,
+      .discovery, .conducting, .concluding, .implementing, .product-showcase { padding: 48px 20px; }
+      .step { flex: 1 1 calc(50% - 8px); }
+      .photo-row { display: none; }
+      .q-grid { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">C · P</a>
+    <button class="nav-toggle" onclick="document.getElementById('nl').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="nl">
+      <a href="index.html" data-i18n="nav_home">home</a>
+      <a href="work.html" data-i18n="nav_work">some work</a>
+      <a href="about.html" data-i18n="nav_about">about me</a>
+      <button class="lang-btn" id="lang-btn" onclick="toggleLang()">ES</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <span class="hero-cat" data-i18n="ecgo_cat">Health</span>
+      <span class="hero-sub">ECGO</span>
+      <h1 class="hero-title" data-i18n="ecgo_title">Market fit for Ecgo, a new cardiac health device</h1>
+      <div class="hero-divider"></div>
+      <p class="hero-date" data-i18n="ecgo_date">Ecgo &nbsp;·&nbsp; Health Tech &nbsp;·&nbsp; 2018–2019</p>
+      <p class="hero-tags" data-i18n="ecgo_tags">#UX Research &nbsp;·&nbsp; #TechDriven &nbsp;·&nbsp; #DataScience &nbsp;·&nbsp; #Telemedicine &nbsp;·&nbsp; #PublicHealth &nbsp;·&nbsp; #Startup</p>
+    </div>
+  </div>
+
+  <!-- REQUIREMENT -->
+  <div class="requirement">
+    <div class="req-left">
+      <h2 data-i18n="ecgo_req_h">A device without software.</h2>
+      <p data-i18n="ecgo_req_p">Ecgo had developed a new cardiac Holter sensor — but had no digital product around it. I was brought in to understand patients, doctors, and medical technicians deeply enough to design software from scratch that could work in hospitals, clinics, and patients' homes.</p>
+    </div>
+    <div class="req-right">
+      <img src="./images/ecgo-holter.png" alt="Holter device">
+    </div>
+  </div>
+
+  <!-- DISCOVERY -->
+  <div class="discovery">
+    <h2 data-i18n="ecgo_disc_h">Discovery</h2>
+    <div class="steps-row">
+      <div class="step"><span class="step-num">01</span><span class="step-name" data-i18n="ecgo_s1">Objective</span></div>
+      <div class="step"><span class="step-num">02</span><span class="step-name" data-i18n="ecgo_s2">Planning</span></div>
+      <div class="step"><span class="step-num">03</span><span class="step-name" data-i18n="ecgo_s3">Conducting</span></div>
+      <div class="step"><span class="step-num">04</span><span class="step-name" data-i18n="ecgo_s4">Concluding</span></div>
+      <div class="step"><span class="step-num">05</span><span class="step-name" data-i18n="ecgo_s5">Implementing</span></div>
+    </div>
+    <span class="field-label" data-i18n="ecgo_field_label">Field Research</span>
+    <div class="photo-row">
+      <div class="p1"><img src="./images/ecgo-discovery.png" alt="Discovery"></div>
+      <div class="p2"><img src="./images/ecgo-health.png" alt="Health research"></div>
+      <div class="p3"><img src="./images/ecgo-interview.png" alt="Interview"></div>
+      <div class="p4"><img src="./images/ecgo-oli.png" alt="Field research"></div>
+    </div>
+  </div>
+
+  <!-- OBJECTIVE -->
+  <div class="objective">
+    <div class="obj-left">
+      <h2 data-i18n="ecgo_obj_h">01 / Objective</h2>
+      <div class="section-bar"></div>
+      <p data-i18n="ecgo_obj_p">Our objective as the Solunova team was to understand all actors and their context of usage of a Holter cardiac exam in public health institutions.</p>
+    </div>
+    <div class="obj-right">
+      <span class="rq-label" data-i18n="ecgo_rq_label">Research Questions</span>
+      <div class="q-grid">
+        <div class="q-col">
+          <div class="q-item q1"><p data-i18n="ecgo_q1">How does the traditional cardiac Holter flow work?</p></div>
+          <div class="q-item q2"><p data-i18n="ecgo_q2">Who is part of this flow, what characterizes them?</p></div>
+        </div>
+        <div class="q-col">
+          <div class="q-item q3"><p data-i18n="ecgo_q3">What is the minimum service (SAL) that is necessary to be implemented correctly?</p></div>
+          <div class="q-item q4"><p data-i18n="ecgo_q4">What are the challenges and opportunities of implementing software for patients?</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLANNING -->
+  <div class="planning">
+    <div class="plan-left">
+      <span class="plan-label" data-i18n="ecgo_plan_label">The Plan</span>
+      <h2 data-i18n="ecgo_plan_h">02 / Planning</h2>
+      <div class="section-bar"></div>
+      <p data-i18n="ecgo_plan_p1">My research approach was qualitative, with the commercial side completing the findings by using market, data-driven information.</p>
+      <p data-i18n="ecgo_plan_p2">This qualitative approach was based off of two research activities: non-participant observation sessions and unstructured interviews.</p>
+    </div>
+    <div class="plan-right">
+      <div class="participants-card">
+        <h3 data-i18n="ecgo_part_h">Participants</h3>
+        <div class="p-divider"></div>
+        <div class="p-item"><div class="p-dot"></div><span data-i18n="ecgo_part1">4 patients</span></div>
+        <div class="p-item"><div class="p-dot"></div><span data-i18n="ecgo_part2">2 medical technicians</span></div>
+        <div class="p-item"><div class="p-dot"></div><span data-i18n="ecgo_part3">2 cardiac medical specialists</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONDUCTING -->
+  <div class="conducting">
+    <div class="cond-header">
+      <h2 data-i18n="ecgo_cond_h">03 / Conducting</h2>
+      <div class="section-bar"></div>
+      <p data-i18n="ecgo_cond_p">I conducted non-participant observations and in-depth interviews across three key user groups — in hospitals, clinics, and patients' homes.</p>
+    </div>
+    <div class="interview-cards">
+      <div class="interview-card">
+        <span class="ic-num">01</span>
+        <span class="ic-title" data-i18n="ecgo_u1_title">Cardiologists</span>
+        <p class="ic-desc" data-i18n="ecgo_u1_desc">Experts who shaped the cardiac exam report — defining the data quality doctors need to make clinical decisions.</p>
+      </div>
+      <div class="interview-card">
+        <span class="ic-num">02</span>
+        <span class="ic-title" data-i18n="ecgo_u2_title">Medical Technicians</span>
+        <p class="ic-desc" data-i18n="ecgo_u2_desc">Key to understanding how cardiac signals travel from the device to the cardiologist — the critical handoff point.</p>
+      </div>
+      <div class="interview-card">
+        <span class="ic-num">03</span>
+        <span class="ic-title" data-i18n="ecgo_u3_title">Patients</span>
+        <p class="ic-desc" data-i18n="ecgo_u3_desc">Segmented by age, tech comfort, and experience with the Holter process — the widest range of needs on the journey.</p>
+      </div>
+    </div>
+    <div class="obs-bar">
+      <span class="obs-label" data-i18n="ecgo_obs_label">Field Observation</span>
+      <p class="obs-text" data-i18n="ecgo_obs_text">Non-participant observation carried out in 2-hour sessions at three institutions — tracking the full Holter exam flow firsthand.</p>
+      <span class="obs-locations" data-i18n="ecgo_obs_loc">Vival Medical Center &nbsp;·&nbsp; Kaplan Cardiac Foundation &nbsp;·&nbsp; Hospital Cordillera Oriente</span>
+    </div>
+  </div>
+
+  <!-- CONCLUDING -->
+  <div class="concluding">
+    <div class="conc-header">
+      <h2 data-i18n="ecgo_conc_h">04 / Concluding</h2>
+      <div class="section-bar"></div>
+      <p data-i18n="ecgo_conc_p">Our research validated the device's potential — and gave us the foundation to design a completely new kind of cardiac monitoring service.</p>
+    </div>
+    <div class="findings-row">
+      <div class="finding-card">
+        <span class="finding-big">7</span>
+        <span class="finding-unit" data-i18n="ecgo_days_unit">Days</span>
+        <p class="finding-desc" data-i18n="ecgo_days_desc">Continuous cardiac monitoring — 4× longer than the traditional Holter exam.</p>
+      </div>
+      <div class="finding-card">
+        <span class="finding-label" data-i18n="ecgo_find_label">Key Finding</span>
+        <p class="finding-desc" data-i18n="ecgo_find_desc">Detected cardiac conditions the traditional 24-hour Holter exam missed entirely.</p>
+      </div>
+      <div class="finding-card">
+        <span class="finding-label" data-i18n="ecgo_out_label">Key Output</span>
+        <p class="finding-desc" data-i18n="ecgo_out_desc">Co-designed the clinical report and Service Level Agreement alongside the cardiologist and data scientist.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMPLEMENTING -->
+  <div class="implementing">
+    <span class="impl-label" data-i18n="ecgo_impl_label">What We Built</span>
+    <h2 data-i18n="ecgo_impl_h">05 / Implementing</h2>
+    <div class="section-bar-blue"></div>
+    <div class="impl-row">
+      <div class="impl-card dark">
+        <h3 data-i18n="ecgo_impl_c1_h">Dashboard for Cardiologists</h3>
+        <div class="impl-card-divider-dark"></div>
+        <p data-i18n="ecgo_impl_c1_p">Add and register medical supervisors, patients, studies (reports), real-time exams, and new devices. Works for desktop and tablet.</p>
+      </div>
+      <div class="impl-card light">
+        <h3 data-i18n="ecgo_impl_c2_h">APP for Patients</h3>
+        <div class="impl-card-divider-light"></div>
+        <p data-i18n="ecgo_impl_c2_p">Users can input symptoms and log activity during their heart exam. Real-time data complements the cardiac signal monitoring.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCT SHOWCASE -->
+  <div class="product-showcase">
+    <p class="showcase-title" data-i18n="ecgo_showcase_title">The product we built</p>
+    <div class="img-row">
+      <div class="main-img"><img src="./images/ecgo-product.png" alt="Ecgo product software"></div>
+      <div class="side-img"><img src="./images/ecgo-inuse.png" alt="Ecgo device in use"></div>
+    </div>
+  </div>
+
+  <!-- REAL IMPACT -->
+  <div class="real-impact">
+    <div class="impact-left">
+      <h2 data-i18n="ecgo_impact_h">Real impact</h2>
+      <p data-i18n="ecgo_impact_p">The implementation was carried out through laboratory test demos, generating real medical exams with continued iterations until a stable version was reached. Design was key — considering accessibility for patients and adequate visualization of reports for cardiologists.</p>
+    </div>
+    <div class="impact-right">
+      <div class="result-badge">
+        <span class="still-label" data-i18n="ecgo_still_label">Still In Use</span>
+        <span class="year-big">2019</span>
+        <p class="result-note" data-i18n="ecgo_still_note">Implemented at the Kaplan Foundation.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="case-footer">
+    <a href="work.html" data-i18n="footer_back">← Back to work</a>
+    <a href="retail.html" data-i18n="footer_next">Next project →</a>
+  </div>
+
+  <script src="lang.js"></script>
+</body>
+</html>
