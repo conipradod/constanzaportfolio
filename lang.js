@@ -186,7 +186,7 @@ const T = {
 
     about_heading: "sobre mí",
     about_origin: "Chilena · De la Cordillera de los Andes",
-    about_p1: "Soy una Product Designer Senior con un enfoque integral que conecta la experiencia de usuario (UX) con la viabilidad técnica y los objetivos de negocio. Con una sólida trayectoria transformando problemas complejos en soluciones digitales escalables, mi fuerte radica en el diseño basado en datos, la facilitación de workshops de innovación y la visión de producto "end-to-end".",
+    about_p1: "Soy una Product Designer Senior con un enfoque integral que conecta la experiencia de usuario (UX) con la viabilidad técnica y los objetivos de negocio. Con una sólida trayectoria transformando problemas complejos en soluciones digitales escalables, mi fuerte radica en el diseño basado en datos, la facilitación de workshops de innovación y la visión de producto 'end-to-end'.",
     about_p2: "A diferencia de un diseñador tradicional, integro conocimientos de desarrollo y arquitectura de producto para asegurar que cada pixel diseñado sea implementable y genere impacto real. Experta en liderar procesos de Discovery, creación de sistemas de diseño y optimización de flujos de conversión. He trabajado con equipos globales (como en Globant) ayudando a empresas a madurar su cultura de diseño y a acelerar sus ciclos de innovación.",
     contact_title: "Contáctame",
     contact_write: "¡Escríbeme!",
@@ -265,7 +265,7 @@ const T = {
     cen_title: "Rediseñando la gestión de precios — usuarios en el centro de la automatización",
     cen_tags: "#DiseñoDeServicio &nbsp;·&nbsp; #TechDriven &nbsp;·&nbsp; #CienciaDeDatos &nbsp;·&nbsp; #Automatización &nbsp;·&nbsp; #GestiónDelCambio",
     cen_prob_label: "El Desafío",
-    cen_prob_h: "Miles de cambios de precios. Cientos de tiendas. Tres equipos que nunca se \"hablaban\" entre sí.",
+    cen_prob_h: "Miles de cambios de precios. Cientos de tiendas. Tres equipos que nunca se \,'hablaban\,' entre sí.",
     cen_prob_sub: "La complejidad no era solo técnica — era organizacional, cultural y profundamente humana.",
     cen_brief_h: "Un retailer volando a ciegas.",
     cen_brief_p: "Uno de los retailers más grandes de Latinoamérica — 500+ tiendas, miles de cambios de precios semanales — operando su gestión de precios con hojas de cálculo, WhatsApp e intuición. Mi trabajo era cambiar eso.",
